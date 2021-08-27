@@ -1,0 +1,102 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var mixed $date_from_str
+ * @var mixed $date_to_str
+ * @var mixed $languages
+ */
+$this->assign('title', __('Language Statistics'));
+$this->assign('description', '');
+$this->assign('content_title', __('Language Statistics'));
+?>
+
+<div class="box box-solid">
+    <div class="box-body">
+        <?php
+        // The base url is the url where we'll pass the filter parameters
+        $base_url = [
+            'controller' => $this->request->params['controller'],
+            'action' => $this->request->params['action']
+        ];
+
+        echo $this->Form->create(null, [
+            'url' => $base_url,
+            'type' => 'get',
+            'class' => 'form-inline'
+        ]);
+        ?>
+
+        <?=
+        $this->Form->control('Filter.from', [
+            'label' => __("Date From"),
+            'class' => 'form-control',
+            'type' => 'date',
+            'year' => [
+                'class' => 'form-control',
+            ],
+            'month' => [
+                'class' => 'form-control',
+            ],
+            'day' => [
+                'class' => 'form-control',
+            ],
+            'default' => $date_from_str
+        ]);
+        ?>
+
+        <?=
+        $this->Form->control('Filter.to', [
+            'label' => __("Date To"),
+            'class' => 'form-control',
+            'type' => 'date',
+            'year' => [
+                'class' => 'form-control',
+            ],
+            'month' => [
+                'class' => 'form-control',
+            ],
+            'day' => [
+                'class' => 'form-control',
+            ],
+            'default' => $date_to_str
+        ]);
+        ?>
+
+        <?= $this->Form->button(__('Filter'), ['class' => 'btn btn-default btn-sm']); ?>
+
+        <?= $this->Html->link(__('Reset'), $base_url, ['class' => 'btn btn-link btn-sm']); ?>
+
+        <?= $this->Form->end(); ?>
+
+    </div>
+</div>
+
+<div class="box box-info">
+    <div class="box-header">
+        <h3 class="box-title"><?= __("Languages") ?></h3>
+    </div>
+    <div class="box-body">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th><?= __("Name") ?></th>
+                <th><?= __("Clicks") ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($languages as $language) : ?>
+                <tr>
+                    <td><?= $language->language; ?></td>
+                    <td><?= $language->clicks; ?></td>
+                </tr>
+            <?php endforeach;
+            unset($language); ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<?php $this->start('scriptBottom'); ?>
+
+<?php $this->end(); ?>
